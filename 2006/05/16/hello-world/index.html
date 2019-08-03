@@ -234,6 +234,15 @@
 <div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right ">
     
         
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Codeforces/" style="font-size: 10px;">Codeforces</a>
+    </div>
+</div>
+
     
         
 <div class="card widget">
@@ -249,7 +258,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-23T07:11:06.000Z">2019-06-23</time></div>
                     <a href="/2019/06/23/easy-problem-solving-notes/" class="has-link-black-ter is-size-6">简单题合集</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Problemset/">Problemset</a>
                     </p>
                 </div>
             </div>
@@ -315,6 +324,13 @@
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Codeforces/">
+                        <span class="tag">Codeforces</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -328,7 +344,15 @@
                 分类
             </h3>
             <ul class="menu-list">
-            
+            <li>
+        <a class="level is-marginless" href="/categories/Problemset/">
+            <span class="level-start">
+                <span class="level-item">Problemset</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
             </ul>
         </div>
     </div>
@@ -447,7 +471,8 @@ document.addEventListener('DOMContentLoaded', function () {
             scale: 100
         },
         tex2jax: {
-            inlineMath: [["$", "$"], ["\\\\(", "\\\\)"]],
+            inlineMath: [["$", "$"], ["\\(", "\\)"]],
+            displayMath: [["$$", "$$"], ["\\[", "\\]"]],
             processEscapes:true
         },
         extensions: ["cancel.js", "color.js"],
