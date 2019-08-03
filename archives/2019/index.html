@@ -408,10 +408,11 @@
 
     
     
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-AMS-MML_SVG" defer></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         MathJax.Hub.Config({
+            jax: ["input/TeX", "output/SVG"],
             tex2jax: {
                 inlineMath: [['$', '$'], ["\\(", "\\)"]],
                 processEscapes: true,
@@ -419,9 +420,7 @@
             },
             TeX: {
                 extensions: ['cancel.js', 'enclose.js'],
-                equationNumbers: {
-                    autoNumber: "AMS"
-                }
+                equationNumbers: { autoNumber: "AMS" }
             },
             menuSettings: {
                 zscale: "150%",
