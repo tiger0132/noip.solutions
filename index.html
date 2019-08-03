@@ -471,21 +471,28 @@
     
 <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    MathJax.Hub.Config({
-        jax: ["output/SVG"],
-        SVG: {
-            matchFontHeight: false,
-            scale: 100
-        },
-        tex2jax: {
-            inlineMath: [["$", "$"], ["\\(", "\\)"]],
-            displayMath: [["$$", "$$"], ["\\[", "\\]"]],
-            processEscapes:true
-        },
-        extensions: ["cancel.js", "color.js"],
+    document.addEventListener('DOMContentLoaded', function () {
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ["\\(", "\\)"]],
+                processEscapes: true,
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            TeX: {
+                extensions: ['cancel.js', 'enclose.js'],
+                equationNumbers: {
+                    autoNumber: "AMS"
+                }
+            },
+            menuSettings: {
+                zscale: "150%",
+                zoom: "Hover"
+            },
+            SVG: {
+                scale: 100
+            }
+        });
     });
-});
 </script>
 
     
