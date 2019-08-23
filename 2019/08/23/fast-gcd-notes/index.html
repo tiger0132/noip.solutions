@@ -56,19 +56,19 @@
   };
 </script>
 
-  <meta name="description" content="简介 dsu on tree，即树上启发式合并，利用重链剖分的性质保证复杂度。">
-<meta name="keywords" content="dsu on tree,树链剖分,重链剖分">
+  <meta name="description" content="脑子不太好使了，写不出神仙括号序题，只好来学这个……">
+<meta name="keywords" content="数学,数论">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dsu on tree 第一轮复习">
-<meta property="og:url" content="https://noi.solutions/2019/08/13/dsu-on-tree-rev1/index.html">
+<meta property="og:title" content="O(n)-O(1) GCD 学习笔记">
+<meta property="og:url" content="https://noi.solutions/2019/08/23/fast-gcd-notes/index.html">
 <meta property="og:site_name" content="Tiger0132 的小站">
-<meta property="og:description" content="简介 dsu on tree，即树上启发式合并，利用重链剖分的性质保证复杂度。">
+<meta property="og:description" content="脑子不太好使了，写不出神仙括号序题，只好来学这个……">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-13T15:12:12.706Z">
+<meta property="og:updated_time" content="2019-08-23T22:37:59.525Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dsu on tree 第一轮复习">
-<meta name="twitter:description" content="简介 dsu on tree，即树上启发式合并，利用重链剖分的性质保证复杂度。">
-  <link rel="canonical" href="https://noi.solutions/2019/08/13/dsu-on-tree-rev1/">
+<meta name="twitter:title" content="O(n)-O(1) GCD 学习笔记">
+<meta name="twitter:description" content="脑子不太好使了，写不出神仙括号序题，只好来学这个……">
+  <link rel="canonical" href="https://noi.solutions/2019/08/23/fast-gcd-notes/">
 
 
 <script id="page-configurations">
@@ -82,7 +82,7 @@
   };
 </script>
 
-  <title>dsu on tree 第一轮复习 | Tiger0132 的小站</title>
+  <title>O(n)-O(1) GCD 学习笔记 | Tiger0132 的小站</title>
   
 
 
@@ -284,7 +284,7 @@ Analytics"></a></div></noscript>
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://noi.solutions/2019/08/13/dsu-on-tree-rev1/">
+    <link itemprop="mainEntityOfPage" href="https://noi.solutions/2019/08/23/fast-gcd-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="tiger0132">
@@ -298,7 +298,7 @@ Analytics"></a></div></noscript>
       <header class="post-header">
 
         
-          <h2 class="post-title" itemprop="name headline">dsu on tree 第一轮复习
+          <h2 class="post-title" itemprop="name headline">O(n)-O(1) GCD 学习笔记
 
             
           </h2>
@@ -317,11 +317,19 @@ Analytics"></a></div></noscript>
                 
               
 
-              <time title="创建时间：2019-08-13 21:02:39 / 修改时间：23:12:12" itemprop="dateCreated datePublished" datetime="2019-08-13T21:02:39+08:00">2019-08-13</time>
+              <time title="创建时间：2019-08-23 22:42:31" itemprop="dateCreated datePublished" datetime="2019-08-23T22:42:31+08:00">2019-08-23</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-08-24 06:37:59" itemprop="dateModified" datetime="2019-08-24T06:37:59+08:00">2019-08-24</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -357,58 +365,57 @@ Analytics"></a></div></noscript>
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="简介">简介</h1>
-<p>dsu on tree，即树上启发式合并，利用重链剖分的性质保证复杂度。</p>
+        <p>脑子不太好使了，写不出神仙括号序题，只好来学这个……</p>
 <a id="more"></a>
 <h1 id="流程">流程</h1>
-<p>首先考虑一个离线静态树上的子树查询问题。</p>
-<p>最暴力的思路是这样的：</p>
+<p>这篇 Blog 基本上就是在翻译这个 slide：<span class="exturl" data-url="aHR0cHM6Ly93d3cubWltdXcuZWR1LnBsL35rb2NpdW1ha2EvZmlsZXMvc3RhY3MyMDEzX3NsaWRlcy5wZGY=" title="https://www.mimuw.edu.pl/~kociumaka/files/stacs2013_slides.pdf">qwq<i class="fa fa-external-link"></i></span>。</p>
+<p>众所周知，辗转相除求 GCD 的复杂度是 <span class="math inline">\(O(\log n)\)</span> 的。有时候我们需要更优秀的科技。</p>
+<p>注意到，有时计算 GCD 很简单。比如我们要计算 <span class="math inline">\(\gcd(x,y)\)</span>：</p>
 <ul>
-<li>枚举树上的点 <span class="math inline">\(i\)</span>
-<ul>
-<li>暴力 DFS 统计整棵子树的答案</li>
-<li>回答这个点的所有查询</li>
-<li>清空答案</li>
-</ul></li>
+<li>我们可以 <span class="math inline">\(O(n)\)</span> 地预处理出 <span class="math inline">\(x&#39;,y&#39;\le\sqrt n\)</span> 的 <span class="math inline">\(\gcd(x&#39;,y&#39;)\)</span>。如果 <span class="math inline">\(x\le\sqrt n\)</span>，那么我们可以直接返回 <span class="math inline">\(\gcd(x,y\bmod x)\)</span>；</li>
+<li>如果 <span class="math inline">\(x\)</span> 是个质数，那么直接判断 <span class="math inline">\(y\)</span> 是否能被 <span class="math inline">\(x\)</span> 整除。</li>
 </ul>
-<p>这样做显然是 <span class="math inline">\(O(n^2)\)</span> 的。</p>
-<hr>
-<p>注意到每次清空统计结果会降低效率。所以我们考虑对于每个点，不清除它的某个儿子的答案：</p>
+<p>对于一个正整数 <span class="math inline">\(k\)</span>，我们定义 <span class="math inline">\((k_1,k_2,k_3)\)</span> 是一个「迷之分解」当且仅当 <span class="math inline">\(k=k_1k_2k_3\)</span> 且每一个 <span class="math inline">\(k_i\)</span> 要么是质数，要么 <span class="math inline">\(\le\sqrt n\)</span>。</p>
+<p>那么我们要预处理的信息是：</p>
 <ul>
-<li>从根节点开始 DFS，当前 DFS 到了 <span class="math inline">\(x\)</span> 号点
-<ul>
-<li>找一个儿子 <span class="math inline">\(y\)</span></li>
-<li>DFS 除 <span class="math inline">\(y\)</span> 以外的其它节点，并清除它们的答案</li>
-<li>DFS <span class="math inline">\(y\)</span> 号点</li>
-<li>继承 <span class="math inline">\(y\)</span> 的答案</li>
-<li>暴力统计除 <span class="math inline">\(y\)</span> 以外其它子树的答案</li>
-<li>回答 <span class="math inline">\(x\)</span> 的所有查询</li>
-</ul></li>
+<li><span class="math inline">\(x,y\le\sqrt n\)</span> 时的答案；</li>
+<li>对于 <span class="math inline">\([1,n]\)</span> 中的 <span class="math inline">\(x\)</span> 的「迷之分解」。</li>
 </ul>
-<p>令 <span class="math inline">\(y\)</span> 的子树大小为 <span class="math inline">\(m\)</span>，<span class="math inline">\(x\)</span> 的子树大小为 <span class="math inline">\(n\)</span>。那么有：<span class="math inline">\(T(n)=T(m)+T(n-m)+O(n-m)\)</span>。</p>
-<p>最坏情况下，<span class="math inline">\(m=n-m=\frac n2\)</span>。可得 <span class="math inline">\(T(n)=2T(\frac n2)+O(n)=O(n\log n)\)</span>。</p>
-<p>显然，<span class="math inline">\(y\)</span> 应该取 <span class="math inline">\(x\)</span> 的重儿子。</p>
-<h1 id="例题">例题</h1>
-<h2 id="cf570d-tree-requests">CF570D Tree Requests</h2>
-<h3 id="题意">题意</h3>
-<p>给一棵树，每个点上有个字母。你要支持查询一个数对 <span class="math inline">\((x,y)\)</span>，即查询 <span class="math inline">\(x\)</span> 子树所有在原树深度为 <span class="math inline">\(y\)</span> 的点上的字母是否可以重排成一个回文串。</p>
-<p><span class="math inline">\(1\le n,m\le5\times10^5\)</span>。</p>
-<h3 id="解法">解法</h3>
-<p>令 <span class="math inline">\(c_i\)</span> 为 <strong>当前点</strong> 深度为 <span class="math inline">\(i\)</span> 时，每个字母出现次数的奇偶性状态压缩的值。</p>
-<p>那么当 <span class="math inline">\(c_i=0\)</span> 或 <span class="math inline">\(2^a\)</span> 时，<strong>当前点</strong> 深度为 <span class="math inline">\(i\)</span> 的节点上的字母可以重排成一个回文串。</p>
-<p>考虑 dsu on tree。每次继承重儿子上的答案，暴力统计时算出 <span class="math inline">\(c\)</span> 的值。复杂度 <span class="math inline">\(O(n\log n)\)</span>。</p>
-<h3 id="代码">代码</h3>
+<p>查询的伪代码是这样的：</p>
+<p>计算 <span class="math inline">\(\gcd(x,y)\)</span></p>
+<ul>
+<li>查询 <span class="math inline">\(x\)</span> 的「迷之分解」<span class="math inline">\((x_1,x_2,x_3)\)</span></li>
+<li>对于 <span class="math inline">\(i\in[1,3]\)</span> 中的每个 <span class="math inline">\(i\)</span>
+<ul>
+<li>如果 <span class="math inline">\(x_i\le\sqrt n\)</span>
+<ul>
+<li>答案乘上 <span class="math inline">\(\gcd(x_i,y\bmod x_i)\)</span>，<span class="math inline">\(y\)</span> 除以 <span class="math inline">\(\gcd(x_i,y\bmod x_i)\)</span></li>
+</ul></li>
+<li>否则，如果 <span class="math inline">\(x_i\mid y\)</span>
+<ul>
+<li>答案乘上 <span class="math inline">\(x_i\)</span>，<span class="math inline">\(y\)</span> 除以 <span class="math inline">\(x_i\)</span></li>
+</ul></li>
+<li>否则答案不变</li>
+</ul></li>
+<li>返回答案</li>
+</ul>
+<p>然后考虑怎么筛这个「迷之分解」。</p>
+<p>首先，质数 <span class="math inline">\(p\)</span> 的「迷之分解」显然应该是 <span class="math inline">\((1,1,p)\)</span>。</p>
+<p>有一个神奇的引理：令 <span class="math inline">\(x&gt;1\)</span> 是一个正整数，<span class="math inline">\(p\)</span> 是 <span class="math inline">\(x\)</span> 的最小质因子且 <span class="math inline">\(k=\frac xp\)</span>。如果 <span class="math inline">\((k_1,k_2,k_3),k_1&lt;k_2&lt;k_3\)</span> 是 <span class="math inline">\(k\)</span> 的一个「迷之分解」，那么 <span class="math inline">\((pk_1,k_2,k_3)\)</span> 是 <span class="math inline">\(x\)</span> 的。</p>
+<p>不会证，自闭了。</p>
+<p>然后就没了。</p>
+<h1 id="代码">代码</h1>
 <div class="spoiler collapsed"><div class="spoiler-title">代码</div><div class="spoiler-content"><figure class="highlight cpp">
 <figcaption>
-<span>CF570D.cpp</span>
+<span>LP5435.cpp</span>
 </figcaption>
 <table>
 <tr>
 <td class="gutter">
-<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre>
+<pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre>
 </td>
 <td class="code">
-<pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">5e5</span> + <span class="number">55</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">edge</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> to, next;</span><br><span class="line">&#125; e[N &lt;&lt; <span class="number">1</span>];</span><br><span class="line"><span class="keyword">int</span> head[N], cnt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    e[++cnt] = &#123;y, x[head]&#125;, x[head] = cnt;</span><br><span class="line">    e[++cnt] = &#123;x, y[head]&#125;, y[head] = cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">qr</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">bool</span> *ans;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">int</span> sz[N], dep[N], son[N], par[N], c[N];</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;qr&gt; q[N];</span><br><span class="line"><span class="keyword">char</span> s[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs1</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> p, <span class="keyword">int</span> d)</span> </span>&#123;</span><br><span class="line">    x[sz] = <span class="number">1</span>, x[dep] = d, x[par] = p;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = x[head], nx, mx = <span class="number">0</span>; i; i = e[i].next)</span><br><span class="line">        <span class="keyword">if</span> ((nx = e[i].to) != p) &#123;</span><br><span class="line">            dfs1(nx, x, d + <span class="number">1</span>), x[sz] += nx[sz];</span><br><span class="line">            <span class="keyword">if</span> (nx[sz] &gt; mx) mx = nx[sz], x[son] = nx;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> vis[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs3</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;  <span class="comment">// 暴力统计</span></span><br><span class="line">    x[dep][c] ^= <span class="number">1</span> &lt;&lt; (s[x] - <span class="string">'a'</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = x[head], nx; i; i = e[i].next)</span><br><span class="line">        <span class="keyword">if</span> ((nx = e[i].to) != x[par] &amp;&amp; !nx[vis]) dfs3(nx);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs2</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">bool</span> f)</span> </span>&#123;  <span class="comment">// f 代表重儿子</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = x[head], nx; i; i = e[i].next)</span><br><span class="line">        <span class="keyword">if</span> ((nx = e[i].to) != x[par] &amp;&amp; nx != x[son]) dfs2(nx, <span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">if</span> (x[son]) dfs2(x[son], <span class="literal">true</span>), x[son][vis] = <span class="literal">true</span>;  <span class="comment">// 直接继承重儿子的答案</span></span><br><span class="line">    dfs3(x);                                             <span class="comment">// 暴力统计轻儿子的答案</span></span><br><span class="line">    x[son][vis] = <span class="literal">false</span>;                                 <span class="comment">// 清除重儿子的 vis 标记</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> i : q[x]) *(i.ans) = !(i.x[c] &amp; (i.x[c] - <span class="number">1</span>));</span><br><span class="line">    <span class="keyword">if</span> (!f) dfs3(x);  <span class="comment">// 如果自己是轻儿子，消除自己的影响</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n, m, x, y;</span><br><span class="line"><span class="keyword">bool</span> ans[N];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;n, &amp;m);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;x), addedge(i, x);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>, s + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++) <span class="built_in">scanf</span>(<span class="string">"%d%d"</span>, &amp;x, &amp;y), x[q].push_back(&#123;y, ans + i&#125;);</span><br><span class="line">    dfs1(<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>), dfs2(<span class="number">1</span>, <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; i++) <span class="built_in">puts</span>(ans[i] ? <span class="string">"Yes"</span> : <span class="string">"No"</span>);</span><br><span class="line">&#125;</span><br></pre>
+<pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">5e3</span> + <span class="number">35</span>, M = <span class="number">1e6</span>, K = <span class="number">1e3</span>, P = <span class="number">998244353</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> p[M + <span class="number">61</span>], sd[M + <span class="number">61</span>][<span class="number">3</span>], _gcd[K + <span class="number">31</span>][K + <span class="number">31</span>], cnt;</span><br><span class="line"><span class="keyword">bool</span> f[M + <span class="number">61</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">assign</span><span class="params">(<span class="keyword">int</span> *a, <span class="keyword">int</span> x, <span class="keyword">int</span> y, <span class="keyword">int</span> z)</span> </span>&#123; a[<span class="number">0</span>] = x, a[<span class="number">1</span>] = y, a[<span class="number">2</span>] = z; &#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">int</span> ans = <span class="number">1</span>;</span><br><span class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</span><br><span class="line">       <span class="keyword">int</span> v = sd[x][i], d = <span class="number">1</span>;</span><br><span class="line">     <span class="keyword">if</span> (v &lt;= K)</span><br><span class="line">           d = _gcd[v][y % v];</span><br><span class="line">       <span class="keyword">else</span> <span class="keyword">if</span> (!(y % v))</span><br><span class="line">          d = v;</span><br><span class="line">        ans *= d, y /= d;</span><br><span class="line"> &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n, a[N], b[N];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  f[<span class="number">1</span>] = sd[<span class="number">1</span>][<span class="number">0</span>] = sd[<span class="number">1</span>][<span class="number">1</span>] = sd[<span class="number">1</span>][<span class="number">2</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= M; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!f[i]) sd[i][<span class="number">0</span>] = sd[i][<span class="number">1</span>] = <span class="number">1</span>, sd[i][<span class="number">2</span>] = i, p[++cnt] = i;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= cnt &amp;&amp; i * p[j] &lt;= M; j++) &#123;</span><br><span class="line">            f[i * p[j]] = <span class="number">1</span>;</span><br><span class="line">          <span class="keyword">int</span> cm = sd[i][<span class="number">0</span>] * p[j];</span><br><span class="line">            <span class="keyword">if</span> (cm &lt; sd[i][<span class="number">1</span>])</span><br><span class="line">                assign(sd[i * p[j]], cm, sd[i][<span class="number">1</span>], sd[i][<span class="number">2</span>]);</span><br><span class="line">         <span class="keyword">else</span> <span class="keyword">if</span> (cm &lt; sd[i][<span class="number">2</span>])</span><br><span class="line">              assign(sd[i * p[j]], sd[i][<span class="number">1</span>], cm, sd[i][<span class="number">2</span>]);</span><br><span class="line">         <span class="keyword">else</span></span><br><span class="line">             assign(sd[i * p[j]], sd[i][<span class="number">1</span>], sd[i][<span class="number">2</span>], cm);</span><br><span class="line">         <span class="keyword">if</span> (!(i % p[j])) <span class="keyword">break</span>;</span><br><span class="line">     &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= K; i++) <span class="built_in">printf</span>(<span class="string">"[%d %d %d]\n"</span>, sd[i][<span class="number">1</span>], sd[i][<span class="number">2</span>], sd[i][<span class="number">3</span>]);</span><br><span class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= K; i++) _gcd[i][<span class="number">0</span>] = _gcd[<span class="number">0</span>][i] = i;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= K; i++)</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= i; j++) _gcd[i][j] = _gcd[j][i] = _gcd[i - j][j];</span><br><span class="line">   <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>, a + i);</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>, b + i);</span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">      <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>, k = i; j &lt;= n; j++, k = <span class="number">1l</span>l * k * i % P)</span><br><span class="line">         ans = (ans + <span class="number">1l</span>l * k * gcd(a[i], b[j])) % P;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, ans);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
 </td>
 </tr>
 </table>
@@ -430,7 +437,7 @@ Analytics"></a></div></noscript>
     <strong>本文作者： </strong>tiger0132</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://noi.solutions/2019/08/13/dsu-on-tree-rev1/" title="dsu on tree 第一轮复习">https://noi.solutions/2019/08/13/dsu-on-tree-rev1/</a>
+    <a href="https://noi.solutions/2019/08/23/fast-gcd-notes/" title="O(n)-O(1) GCD 学习笔记">https://noi.solutions/2019/08/23/fast-gcd-notes/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC8="><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！</li>
@@ -445,11 +452,9 @@ Analytics"></a></div></noscript>
           
           <div class="post-tags">
             
-              <a href="/tags/dsu-on-tree/" rel="tag"># dsu on tree</a>
+              <a href="/tags/数学/" rel="tag"># 数学</a>
             
-              <a href="/tags/树链剖分/" rel="tag"># 树链剖分</a>
-            
-              <a href="/tags/重链剖分/" rel="tag"># 重链剖分</a>
+              <a href="/tags/数论/" rel="tag"># 数论</a>
             
           </div>
         
@@ -459,8 +464,8 @@ Analytics"></a></div></noscript>
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/08/13/long-path-decomposition-notes/" rel="next" title="长链剖分学习笔记">
-                  <i class="fa fa-chevron-left"></i> 长链剖分学习笔记
+                <a href="/2019/08/22/solution-completion/" rel="next" title="题解补完计划">
+                  <i class="fa fa-chevron-left"></i> 题解补完计划
                 </a>
               
             </div>
@@ -468,10 +473,6 @@ Analytics"></a></div></noscript>
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/08/18/scanning-notes/" rel="prev" title="扫描线学习笔记">
-                  扫描线学习笔记 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -641,7 +642,7 @@ Analytics"></a></div></noscript>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#流程"><span class="nav-number">2.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例题"><span class="nav-number">3.</span> <span class="nav-text">例题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cf570d-tree-requests"><span class="nav-number">3.1.</span> <span class="nav-text">CF570D Tree Requests</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题意"><span class="nav-number">3.1.1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解法"><span class="nav-number">3.1.2.</span> <span class="nav-text">解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.1.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#流程"><span class="nav-number">1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a></li></ol></div>
             
 
           </div>
@@ -885,7 +886,7 @@ if ($('body').find('pre.mermaid').length) {
       repo: 'new-blog-gitalk',
       owner: 'tiger0132',
       admin: ['tiger0132'],
-      id: 'af73bad4a3008b18a054a4140e178668',
+      id: 'f91275afa5acad71df43aae40fad6260',
         language: 'zh-CN',
       
       distractionFreeMode: 'true'
