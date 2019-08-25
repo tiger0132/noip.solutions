@@ -347,6 +347,24 @@ Analytics"></a></div></noscript>
               <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
             </span>
           
+            
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/08/13/long-path-decomposition-notes/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/08/13/long-path-decomposition-notes/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+          
 
         </div>
       </header>
@@ -460,7 +478,7 @@ Analytics"></a></div></noscript>
           </div>
           
     
-    <div class="comments" id="gitalk-container"></div>
+    <div class="comments" id="comments"></div>
   
 
         </div>
@@ -845,23 +863,29 @@ if ($('body').find('pre.mermaid').length) {
 
 
     
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
 
 <script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
-    var gitalk = new Gitalk({
-      clientID: '1491e0f129969cd9b243',
-      clientSecret: 'c698fa8a16f40e04d29de662295c6dc4aad505bd',
-      repo: 'new-blog-gitalk',
-      owner: 'tiger0132',
-      admin: ['tiger0132'],
-      id: '9f7e2abd6b78a86061b7574ddd09a33c',
-        language: 'zh-CN',
-      
-      distractionFreeMode: 'true'
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', function() {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'eWr2Bo8k6b5F78lHQVGCGtX3-MdYXbMMI',
+    appKey: 'XjjYJoAdlRTJe6XVo6tlnQPg',
+    placeholder: '>_<',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-cn' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
 </script>
 
     </div>
