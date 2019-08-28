@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="Tiger0132 的小站">
 <meta property="og:description" content="里面的套路大概都比较基础。持续更新……">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-23T10:58:19.578Z">
+<meta property="og:updated_time" content="2019-08-28T17:16:39.718Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一些常见套路">
 <meta name="twitter:description" content="里面的套路大概都比较基础。持续更新……">
@@ -344,7 +344,7 @@ Analytics"></a></div></noscript>
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-08-23 18:58:19" itemprop="dateModified" datetime="2019-08-23T18:58:19+08:00">2019-08-23</time>
+                <time title="修改时间：2019-08-29 01:16:39" itemprop="dateModified" datetime="2019-08-29T01:16:39+08:00">2019-08-29</time>
               </span>
             
           
@@ -407,14 +407,20 @@ Analytics"></a></div></noscript>
 <p><em>注：P5354 的常见做法不需要这个性质，但是本蒟蒻的一种做法使用了这个性质。</em></p>
 <p>一个 <span class="math inline">\([0,2^n)\)</span> 范围内的二进制数组的前缀或和前缀与最多有 <span class="math inline">\(n+1\)</span> 种取值。（N933B）</p>
 <p>二元的操作序列转换成二进制串可能有意想不到的效果。（P4424）</p>
+<p>多个元素的 <strong>奇偶性</strong> 和 <strong>存在性</strong> 可以压缩成单个二进制数。（经典套路）</p>
 <h1 id="图论">图论</h1>
 <p>在连通性问题中，一个点集中的所有点互相连边，可以转化为，一个点集中的点连向一个虚点。使用线段树优化建图可以进一步优化边数。</p>
-<p>形如 <span class="math inline">\(f_x=\min_{y\in S_x}\{f_y+w(x,y)\}\)</span> 且有后效性的 DP 可以使用最短路转移。</p>
+<p>形如 <span class="math inline">\(f_x=\min_{y\in S_x}\{f_y+w(x,y)\}\)</span> 且有后效性的 DP 可以使用最短路转移。（经典套路）</p>
 <p>同余可达性问题（其实不只是可达性）可以转化为最短路。</p>
 <h1 id="dp">DP</h1>
 <p>如果有多个决策点对答案的贡献是相同的，或者只有少部分决策点对答案有贡献，且这些决策点有性质，可以考虑只转移它们，以优化复杂度。（N933B）</p>
 <h1 id="树">树</h1>
 <p>一棵树的子树在 DFS 序上体现为一个区间。（经典套路）</p>
+<p>如果 <span class="math inline">\(m-n\)</span> 的值非常小，那么可以考虑维护它的一棵生成树</p>
+<h1 id="数据结构">数据结构</h1>
+<p>维护一种信息的方式只有两种：拆成多个信息 或 考虑修改操作对信息的修改。（经典套路）</p>
+<p>在与顺序无关的题中，修改可以转化成 <strong>删除后插入</strong>。（经典套路）</p>
+<p>可以维护全局修改、全局查询、单点修改，但是不能维护区间的时候，可以考虑分块。（经典套路）</p>
 <h1 id="其它">其它</h1>
 <p>最小化问题可以转化为枚举，如果有单调性可以转化成二分。（经典套路）</p>
 <h1 id="todo">Todo</h1>
@@ -637,7 +643,7 @@ Analytics"></a></div></noscript>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#位运算"><span class="nav-number">1.</span> <span class="nav-text">位运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图论"><span class="nav-number">2.</span> <span class="nav-text">图论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dp"><span class="nav-number">3.</span> <span class="nav-text">DP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">4.</span> <span class="nav-text">树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其它"><span class="nav-number">5.</span> <span class="nav-text">其它</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#todo"><span class="nav-number">6.</span> <span class="nav-text">Todo</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#位运算"><span class="nav-number">1.</span> <span class="nav-text">位运算</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图论"><span class="nav-number">2.</span> <span class="nav-text">图论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dp"><span class="nav-number">3.</span> <span class="nav-text">DP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#树"><span class="nav-number">4.</span> <span class="nav-text">树</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构"><span class="nav-number">5.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其它"><span class="nav-number">6.</span> <span class="nav-text">其它</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#todo"><span class="nav-number">7.</span> <span class="nav-text">Todo</span></a></li></ol></div>
             
 
           </div>
