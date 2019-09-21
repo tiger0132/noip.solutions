@@ -56,18 +56,18 @@
   };
 </script>
 
-  <meta name="description" content="SAM 的结构、构造方式、性质、实现和正确性与复杂度证明详见 OI-Wiki。这里仅仅讲一些 naive 的应用，而且还没有 OI-Wiki 写得好…… 注意，本文中的 suffix link tree 与其它博客中的 parent tree 是相同的。">
+  <meta name="description" content="SAM 的结构、构造方式、性质、实现和正确性与复杂度证明详见 OI-Wiki。这里仅仅讲一些 naive 的应用，而且还没有 OI-Wiki 写得好…… 注意，本文中的 suffix link tree 与其它博客中的 parent tree 是相同的，源点是 \(t_0\)。">
 <meta name="keywords" content="字符串,SAM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SAM 学习笔记">
 <meta property="og:url" content="https://noi.solutions/2019/09/09/sam-notes/index.html">
 <meta property="og:site_name" content="Tiger0132 的小站">
-<meta property="og:description" content="SAM 的结构、构造方式、性质、实现和正确性与复杂度证明详见 OI-Wiki。这里仅仅讲一些 naive 的应用，而且还没有 OI-Wiki 写得好…… 注意，本文中的 suffix link tree 与其它博客中的 parent tree 是相同的。">
+<meta property="og:description" content="SAM 的结构、构造方式、性质、实现和正确性与复杂度证明详见 OI-Wiki。这里仅仅讲一些 naive 的应用，而且还没有 OI-Wiki 写得好…… 注意，本文中的 suffix link tree 与其它博客中的 parent tree 是相同的，源点是 \(t_0\)。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-19T10:34:17.410Z">
+<meta property="og:updated_time" content="2019-09-21T02:58:26.106Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SAM 学习笔记">
-<meta name="twitter:description" content="SAM 的结构、构造方式、性质、实现和正确性与复杂度证明详见 OI-Wiki。这里仅仅讲一些 naive 的应用，而且还没有 OI-Wiki 写得好…… 注意，本文中的 suffix link tree 与其它博客中的 parent tree 是相同的。">
+<meta name="twitter:description" content="SAM 的结构、构造方式、性质、实现和正确性与复杂度证明详见 OI-Wiki。这里仅仅讲一些 naive 的应用，而且还没有 OI-Wiki 写得好…… 注意，本文中的 suffix link tree 与其它博客中的 parent tree 是相同的，源点是 \(t_0\)。">
   <link rel="canonical" href="https://noi.solutions/2019/09/09/sam-notes/">
 
 
@@ -346,7 +346,7 @@ Analytics"></a></div></noscript>
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-09-19 18:34:17" itemprop="dateModified" datetime="2019-09-19T18:34:17+08:00">2019-09-19</time>
+                <time title="修改时间：2019-09-21 10:58:26" itemprop="dateModified" datetime="2019-09-21T10:58:26+08:00">2019-09-21</time>
               </span>
             
           
@@ -402,7 +402,7 @@ Analytics"></a></div></noscript>
 
       
         <p>SAM 的结构、构造方式、性质、实现和正确性与复杂度证明详见 OI-Wiki。这里仅仅讲一些 naive 的应用，<del>而且还没有 OI-Wiki 写得好……</del></p>
-<p>注意，本文中的 suffix link tree 与其它博客中的 parent tree 是相同的。</p>
+<p>注意，本文中的 suffix link tree 与其它博客中的 parent tree 是相同的，源点是 <span class="math inline">\(t_0\)</span>。</p>
 <a id="more"></a>
 <h1 id="本质不同的子串个数-p2408-不同子串个数">本质不同的子串个数 (P2408 不同子串个数)</h1>
 <h2 id="dag-dp">DAG DP</h2>
@@ -432,6 +432,13 @@ Analytics"></a></div></noscript>
 <p>求解的方法与 <strong>相同串只算一次</strong> 的情况类似，只不过当 <span class="math inline">\(k\le dp_{nx}\)</span> 时，要把 <span class="math inline">\(k\)</span> 减 <span class="math inline">\(\operatorname{len}(i)-\operatorname{len}(\operatorname{link}(i))\)</span>。</p>
 <h1 id="最长公共子串">最长公共子串</h1>
 <h2 id="两个串的情况">两个串的情况</h2>
+<p>对一个串建 SAM，然后把另外一个串放在 SAM 上跑。</p>
+<p>令当前所在的状态为 <span class="math inline">\(p\)</span>，当前匹配的长度为 <span class="math inline">\(l\)</span>。初始值是 <span class="math inline">\(p=t_0,l=0\)</span>。</p>
+<p>对于字符串中的字符 <span class="math inline">\(c\)</span>，如果 <span class="math inline">\(p\)</span> 有到 <span class="math inline">\(c\)</span> 的转移，那么将 <span class="math inline">\(p\)</span> 转移并自增 <span class="math inline">\(l\)</span>。</p>
+<p>如果 <span class="math inline">\(p\)</span> 没有到 <span class="math inline">\(c\)</span> 的转移，那么我们找一个包含到 <span class="math inline">\(c\)</span> 的转移的状态 <span class="math inline">\(q\)</span>，满足 <span class="math inline">\(q\)</span> 是 <span class="math inline">\(p\)</span> 的祖先，而且 <span class="math inline">\(q\)</span> 是满足要求的点中深度最大的。</p>
+<p>如果存在这样的 <span class="math inline">\(q\)</span>，那么把 <span class="math inline">\(p\)</span> 赋值为 <span class="math inline">\(q\)</span> 转移后的点。并将 <span class="math inline">\(l\)</span> 设置为 <span class="math inline">\(\operatorname{len}(q)+1\)</span>。</p>
+<p>如果不存在这样的 <span class="math inline">\(q\)</span>，就将 <span class="math inline">\(p\)</span> 赋值为 <span class="math inline">\(t_0\)</span>，<span class="math inline">\(l\)</span> 赋值为 <span class="math inline">\(0\)</span>。</p>
+<p>答案是整个转移过程中，<span class="math inline">\(l\)</span> 的最大值。</p>
 <link rel="stylesheet" href="/css/spoiler.css" type="text/css"><script src="/js/spoiler.js" type="text/javascript" async></script>
     </div>
 
